@@ -2,7 +2,7 @@ package filmparser;
 
 public class Film {
     private String name;
-    private char[] meshTag;
+    private String meshTag;
     private int build;
     private int numPlugins;
     private Plugin[] plugins;
@@ -17,11 +17,11 @@ public class Film {
         this.name = name;
     }
 
-    public char[] getMeshTag() {
+    public String getMeshTag() {
         return meshTag;
     }
 
-    public void setMeshTag(char[] meshTag) {
+    public void setMeshTag(String meshTag) {
         this.meshTag = meshTag;
     }
 
