@@ -46,7 +46,7 @@ public class FilmParser {
         film.setMeshTag(parseToString(MESH_TAG_ADDR, 4));
     }
     private void parseGameBuildNumber() {
-        film.setBuild(parseToNumber(GAME_BUILD_ADDR));
+        film.setBuild(parseToNumber(GAME_BUILD_ADDR) + 8);
     }
     private void parsePlugins() {
         int numPlugins = parseToNumber(PLUGINS_NUMBER_ADDR);

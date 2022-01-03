@@ -42,8 +42,10 @@ public class TainPluginController {
                 os.write(out);
             }
             // Do something with http.getInputStream()
-            try(InputStream is = http.getInputStream()) {
-                responseUrl = new String(is.readAllBytes());
+            if (http.getResponseCode() == 200) {
+                try(InputStream is = http.getInputStream()) {
+                    responseUrl = new String(is.readAllBytes());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
