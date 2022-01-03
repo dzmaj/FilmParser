@@ -1,5 +1,7 @@
 package filmparser;
 
+import java.nio.ByteBuffer;
+
 public class Plugin {
     private String name;
     private String url;
@@ -50,5 +52,13 @@ public class Plugin {
             str += String.format("%02x", checksum[i]);
         }
         return str;
+    }
+
+    public long getChecksumValue() {
+        int val = 0;
+        val = ByteBuffer.wrap(checksum).getInt();
+        // should be 2578814965
+        long unsignedValue = val & 0xffffffffL;
+        return unsignedValue;
     }
 }

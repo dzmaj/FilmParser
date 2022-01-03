@@ -1,2 +1,4 @@
-package filmparser;public class TainPluginController {
+package filmparser;
+
+public class TainPluginController {
 }

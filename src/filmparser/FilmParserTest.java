@@ -1,5 +1,7 @@
 package filmparser;
 
+import java.net.StandardSocketOptions;
+
 public class FilmParserTest {
     public static void main(String[] args) {
         System.out.println("Recording Parser: ");
@@ -12,7 +14,8 @@ public class FilmParserTest {
         for (Plugin plugin: film.getPlugins()) {
             System.out.println("Plugin: " + plugin.getName());
             System.out.println("URL: " + plugin.getUrl());
-            System.out.println("Checksum: " + plugin.getChecksumString());
+            System.out.println("Checksum: 0x" + plugin.getChecksumString());
+            System.out.println("          " + plugin.getChecksumValue());
         }
     }
 }
