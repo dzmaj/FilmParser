@@ -2,11 +2,17 @@ package filmparser;
 
 public class FilmParserTest {
     public static void main(String[] args) {
+        System.out.println("Recording Parser: ");
         String path = "testfilm.m2rec";
         FilmParser fp = new FilmParser();
         Film film = fp.parseFilm(path);
-        System.out.println(film.getName());
-        System.out.println(film.getMeshTag());
-        System.out.println(film.getBuild());
+        System.out.println("Recording Name: " + film.getName());
+        System.out.println("Mesh Tag ID: " + film.getMeshTag());
+        System.out.println("Game Build: " + film.getBuild());
+        for (Plugin plugin: film.getPlugins()) {
+            System.out.println("Plugin: " + plugin.getName());
+            System.out.println("URL: " + plugin.getUrl());
+            System.out.println("Checksum: " + plugin.getChecksumString());
+        }
     }
 }

@@ -3,7 +3,21 @@ package filmparser;
 public class Plugin {
     private String name;
     private String url;
-    private int[] checksum;
+    private byte[] checksum;
+    private int length;
+
+    public Plugin() {
+        name = "";
+        url = "";
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
 
     public String getName() {
         return name;
@@ -11,6 +25,7 @@ public class Plugin {
 
     public void setName(String name) {
         this.name = name;
+        this.length = 4 + name.length() + url.length() + 2;
     }
 
     public String getUrl() {
@@ -21,11 +36,19 @@ public class Plugin {
         this.url = url;
     }
 
-    public int[] getChecksum() {
+    public byte[] getChecksum() {
         return checksum;
     }
 
-    public void setChecksum(int[] checksum) {
+    public void setChecksum(byte[] checksum) {
         this.checksum = checksum;
+    }
+
+    public String getChecksumString() {
+        String str = "";
+        for (int i = 0; i < checksum.length; i++) {
+            str += String.format("%02x", checksum[i]);
+        }
+        return str;
     }
 }
