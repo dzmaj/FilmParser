@@ -15,7 +15,11 @@ public class FilmParserTest {
             System.out.println("Plugin: " + plugin.getName());
             System.out.println("URL: " + plugin.getUrl());
             System.out.println("Checksum: 0x" + plugin.getChecksumString());
-            System.out.println("          " + plugin.getChecksumValue());
+//            System.out.println("          " + plugin.getChecksumValue());
+            String str = TainPluginController.getUrl(plugin.getName(), plugin.getUrl(), plugin.getChecksumValue());
+            System.out.println(str);
         }
+
+
     }
 }
