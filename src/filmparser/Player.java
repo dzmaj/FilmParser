@@ -3,8 +3,12 @@ package filmparser;
 public class Player {
     private String name;
     private String teamName;
-    private int[] primaryColor;
-    private int[] secondaryColor;
+    private byte[] primaryColor;
+    private byte[] secondaryColor;
+    private byte index;
+    private byte teamIndex;
+    private byte icon;
+    private char rank;
 
     public String getName() {
         return name;
@@ -22,19 +26,19 @@ public class Player {
         this.teamName = teamName;
     }
 
-    public int[] getPrimaryColor() {
+    public byte[] getPrimaryColor() {
         return primaryColor;
     }
 
-    public void setPrimaryColor(int[] primaryColor) {
+    public void setPrimaryColor(byte[] primaryColor) {
         this.primaryColor = primaryColor;
     }
 
-    public int[] getSecondaryColor() {
+    public byte[] getSecondaryColor() {
         return secondaryColor;
     }
 
-    public void setSecondaryColor(int[] secondaryColor) {
+    public void setSecondaryColor(byte[] secondaryColor) {
         this.secondaryColor = secondaryColor;
     }
 }
