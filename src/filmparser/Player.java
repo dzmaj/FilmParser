@@ -8,6 +8,39 @@ public class Player {
     private byte index;
     private byte teamIndex;
     private byte icon;
+
+    public byte getIndex() {
+        return index;
+    }
+
+    public void setIndex(byte index) {
+        this.index = index;
+    }
+
+    public byte getTeamIndex() {
+        return teamIndex;
+    }
+
+    public void setTeamIndex(byte teamIndex) {
+        this.teamIndex = teamIndex;
+    }
+
+    public byte getIcon() {
+        return icon;
+    }
+
+    public void setIcon(byte icon) {
+        this.icon = icon;
+    }
+
+    public char getRank() {
+        return rank;
+    }
+
+    public void setRank(char rank) {
+        this.rank = rank;
+    }
+
     private char rank;
 
     public String getName() {
