@@ -19,6 +19,9 @@ public class FilmParserTest {
             String str = TainPluginController.getUrl(plugin.getName(), plugin.getUrl(), plugin.getChecksumValue());
             System.out.println(str);
         }
+        for (Player player : film.getPlayers()) {
+            System.out.println("Player: " + player.getName());
+        }
 
 
     }
