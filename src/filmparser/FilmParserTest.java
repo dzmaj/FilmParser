@@ -5,7 +5,7 @@ import java.net.StandardSocketOptions;
 public class FilmParserTest {
     public static void main(String[] args) {
         System.out.println("Recording Parser: ");
-        String path = "testfilm.m2rec";
+        String path = "testfilm3.m2rec";
         FilmParser fp = new FilmParser();
         Film film = fp.parseFilm(path);
         System.out.println("Recording Name: " + film.getName());
@@ -20,6 +20,14 @@ public class FilmParserTest {
         }
         for (Player player : film.getPlayers()) {
             System.out.println("Player: " + player);
+        }
+        for (GamePacket packet : film.getPackets()) {
+            String str = "";
+            str += packet.getTime() + " : ";
+            if (packet instanceof ChatPacket) {
+                str += ((ChatPacket) packet).getMessage();
+            }
+            System.out.println(str);
         }
 
 

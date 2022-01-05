@@ -1,5 +1,7 @@
 package filmparser;
 
+import java.util.List;
+
 public class Film {
     private String name;
     private String meshTag;
@@ -8,6 +10,15 @@ public class Film {
     private Plugin[] plugins;
     private int numPlayers;
     private Player[] players;
+    private List<GamePacket> packets;
+
+    public List<GamePacket> getPackets() {
+        return packets;
+    }
+
+    public void setPackets(List<GamePacket> packets) {
+        this.packets = packets;
+    }
 
     public String getName() {
         return name;

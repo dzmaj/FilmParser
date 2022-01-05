@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class PacketFactory {
     public static GamePacket createPacket(byte[] bytes, int start) {
-        GamePacket packet = null;
-        byte[] packetBytes = Arrays.copyOfRange(bytes, bytes[start], start + bytes[start]);
+        GamePacket packet;
+        byte[] packetBytes = Arrays.copyOfRange(bytes, start, start + bytes[start]);
         byte type = bytes[start + 1];
         switch (type) {
             case 0x0a: // Chat packet

@@ -5,8 +5,10 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class FilmParser {
     private String path;
@@ -18,6 +20,8 @@ public class FilmParser {
     private static final int GAME_BUILD_ADDR = 0x86;
     private static final int MESH_TAG_ADDR = 0x70;
     private static final int PLAYER_COUNT_ADDR = 0x290;
+    private static final int UNITS_LENGTH_ADDR = 0x5a;
+    private static final int UNITS_START_ADDR = 0x0a6f;
 
     public Film parseFilm(String filePath) {
         // Check if file path works
@@ -36,6 +40,7 @@ public class FilmParser {
 //            System.out.println("Parse plugins");
             parsePlugins();
             parsePlayers();
+            parsePackets();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,9 +74,7 @@ public class FilmParser {
         Plugin p = new Plugin();
         // plugin checksum
         byte[] checksum = new byte[4];
-        for (int i = 0; i < 4; i++) {
-            checksum[i] = file[start + i];
-        }
+        System.arraycopy(file, start, checksum, 0, 4);
         p.setChecksum(checksum);
         // plugin name
         p.setName(parseToString(start + 4));
@@ -106,6 +109,20 @@ public class FilmParser {
         return player;
     }
 
+    private void parsePackets() {
+        int start = UNITS_START_ADDR + ByteBuffer.wrap(file).getChar(UNITS_LENGTH_ADDR) + 2;
+        List<GamePacket> packets = new ArrayList<>();
+        while (start < file.length) {
+            GamePacket packet = PacketFactory.createPacket(file, start);
+            packets.add(packet);
+            if (packet instanceof ChatPacket) {
+                System.out.println(((ChatPacket) packet).getMessage());
+            }
+            start += packet.getLength();
+        }
+        film.setPackets(packets);
+    }
+
     private char parseToChar(int start) {
         return ByteBuffer.wrap(file).getChar(start);
     }
@@ -113,8 +130,7 @@ public class FilmParser {
     private int parseToInt(int start) {
         int a = Byte.toUnsignedInt(file[start]);
         int b = Byte.toUnsignedInt(file[start + 1]);
-        int c = b | a << 8;
-        return c;
+        return b | a << 8;
     }
     private String parseToString(int start, int length) {
         // zero terminated with end index
@@ -131,13 +147,13 @@ public class FilmParser {
     }
     private String parseToString(int start) {
         // zero terminated
-        String str = "";
+        StringBuilder str = new StringBuilder();
         int i = start;
         while (file[i] != 0) {
-            str += (char) file[i];
+            str.append((char) file[i]);
             i++;
         }
-        return str;
+        return str.toString();
     }
 
 
