@@ -17,6 +17,16 @@ public class Player {
         this.index = index;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", index=" + index +
+                ", teamIndex=" + teamIndex +
+                '}';
+    }
+
     public byte getTeamIndex() {
         return teamIndex;
     }
