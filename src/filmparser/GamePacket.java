@@ -3,26 +3,39 @@ package filmparser;
 import java.nio.ByteBuffer;
 
 public class GamePacket {
-    private byte length;
+    private int length;
     private byte type;
     private byte sender;
     private int time;
+    private byte[] data;
 
     public GamePacket() {
     }
 
     public GamePacket(byte[] bytes) {
+        if (bytes[0] == 0) {
+            throw new IllegalArgumentException("size 0 buffer");
+        }
         this.length = bytes[0];
         this.type = bytes[1];
-        this.sender = bytes[3];
-        this.time = ByteBuffer.wrap(bytes).getInt(4);
+        this.sender = bytes[2];
+        this.time = ByteBuffer.wrap(bytes).getInt(3);
+        this.data = bytes;
     }
 
-    public byte getLength() {
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public int getLength() {
         return length;
     }
 
-    public void setLength(byte length) {
+    public void setLength(int length) {
         this.length = length;
     }
 

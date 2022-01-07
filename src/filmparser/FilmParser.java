@@ -5,16 +5,11 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class FilmParser {
-    private String path;
     private Film film;
     byte[] file;
-    private static final int BUFFER_SIZE = 16384;
     private static final int PLUGINS_START_ADDR = 0x92;
     private static final int PLUGINS_NUMBER_ADDR = 0x8e;
     private static final int GAME_BUILD_ADDR = 0x86;
@@ -29,20 +24,27 @@ public class FilmParser {
         this.film = new Film();
         Path path = Paths.get(filePath);
         try {
-//            System.out.println("Reading file");
+            System.out.println("\tReading file");
             file =  Files.readAllBytes(path);
-//            System.out.println("Parse film name");
+            System.out.println("\tChecking file type");
+            if(!checkFileIsRecordingType()) {
+                throw new Exception("Not m2rec file");
+            }
+            System.out.println("\tParse film name");
             parseFilmName();
-//            System.out.println("Parse mesh tag");
+            System.out.println("\tParse mesh tag");
             parseMeshTag();
-//            System.out.println("Parse game build");
+            System.out.println("\tParse game build");
             parseGameBuildNumber();
-//            System.out.println("Parse plugins");
+            System.out.println("\tParse plugins");
             parsePlugins();
+            System.out.println("\tParse players");
             parsePlayers();
+            System.out.println("\tParse packets");
             parsePackets();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
         return film;
     }
@@ -53,12 +55,11 @@ public class FilmParser {
         film.setMeshTag(parseToString(MESH_TAG_ADDR, 4));
     }
     private void parseGameBuildNumber() {
-        // Game build number appears to be off by 8
-        film.setBuild(parseToInt(GAME_BUILD_ADDR) + 8);
+        // Game build number appears to be off sometimes
+        film.setBuild(parseToInt(GAME_BUILD_ADDR));
     }
     private void parsePlugins() {
         int numPlugins = parseToInt(PLUGINS_NUMBER_ADDR);
-        System.out.println("Number of Plugins: " + numPlugins);
         Plugin[] plugins = new Plugin[numPlugins];
         int start = PLUGINS_START_ADDR;
         for (int i = 0; i < numPlugins; i++) {
@@ -87,11 +88,14 @@ public class FilmParser {
         int numPlayers = parseToInt(PLAYER_COUNT_ADDR);
         film.setNumPlayers(numPlayers);
         Player[] players = new Player[numPlayers];
+        Map<Integer, Player> playerMap = new HashMap<>();
         for (int i = 0; i < numPlayers; i++) {
             // 12 Byte header, each player 124 bytes
             players[i] = parsePlayer(PLAYER_COUNT_ADDR + 12 + 124 * i);
+            playerMap.put((int) players[i].getIndex(), players[i]);
         }
         film.setPlayers(players);
+        film.setPlayerMap(playerMap);
     }
 
     private Player parsePlayer(int start) {
@@ -112,13 +116,21 @@ public class FilmParser {
     private void parsePackets() {
         int start = UNITS_START_ADDR + ByteBuffer.wrap(file).getChar(UNITS_LENGTH_ADDR) + 2;
         List<GamePacket> packets = new ArrayList<>();
+        Map<Integer, GamePacket> packetMap = new TreeMap<>();
         while (start < file.length) {
-            GamePacket packet = PacketFactory.createPacket(file, start);
-            packets.add(packet);
-            if (packet instanceof ChatPacket) {
-                System.out.println(((ChatPacket) packet).getMessage());
+            GamePacket packet = null;
+            try {
+                packet = PacketFactory.createPacket(file, start);
+                packetMap.put(start, packet);
+                if (packet != null) {
+                    packets.add(packet);
+                    start += packet.getLength();
+                } else {
+                    start++;
+                }
+            } catch (Exception e) {
+                start++; // Not sure the best way to recover from these errors
             }
-            start += packet.getLength();
         }
         film.setPackets(packets);
     }
@@ -154,6 +166,19 @@ public class FilmParser {
             i++;
         }
         return str.toString();
+    }
+    public static String getByteString(byte[] bytes, int start, int end) {
+        StringBuilder str = new StringBuilder();
+        for (int i = start; i < end; i++) {
+            str.append(bytes[i]).append(" ");
+        }
+        return str.toString();
+    }
+    public static String getByteString(byte[] bytes) {
+        return getByteString(bytes, 0, bytes.length);
+    }
+    private boolean checkFileIsRecordingType() {
+        return parseToString(36, 4).equals("reco");
     }
 
 

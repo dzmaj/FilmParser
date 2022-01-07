@@ -1,6 +1,7 @@
 package filmparser;
 
 import java.util.List;
+import java.util.Map;
 
 public class Film {
     private String name;
@@ -11,6 +12,28 @@ public class Film {
     private int numPlayers;
     private Player[] players;
     private List<GamePacket> packets;
+    private Map<Integer, GamePacket> packetMap;
+    private Map<Integer, Player> playerMap;
+
+    public Map<Integer, GamePacket> getPacketMap() {
+        return packetMap;
+    }
+
+    public void setPacketMap(Map<Integer, GamePacket> packetMap) {
+        this.packetMap = packetMap;
+    }
+
+    public Map<Integer, Player> getPlayerMap() {
+        return playerMap;
+    }
+
+    public void setPlayerMap(Map<Integer, Player> playerMap) {
+        this.playerMap = playerMap;
+    }
+
+    public Film() {
+
+    }
 
     public List<GamePacket> getPackets() {
         return packets;
