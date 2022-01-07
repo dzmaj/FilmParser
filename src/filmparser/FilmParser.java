@@ -88,14 +88,14 @@ public class FilmParser {
         int numPlayers = parseToInt(PLAYER_COUNT_ADDR);
         film.setNumPlayers(numPlayers);
         Player[] players = new Player[numPlayers];
-        Map<Integer, Player> playerMap = new HashMap<>();
+//        Map<Integer, Player> playerMap = new HashMap<>();
         for (int i = 0; i < numPlayers; i++) {
             // 12 Byte header, each player 124 bytes
             players[i] = parsePlayer(PLAYER_COUNT_ADDR + 12 + 124 * i);
-            playerMap.put((int) players[i].getIndex(), players[i]);
+//            playerMap.put((int) players[i].getIndex(), players[i]);
         }
         film.setPlayers(players);
-        film.setPlayerMap(playerMap);
+//        film.setPlayerMap(playerMap);
     }
 
     private Player parsePlayer(int start) {

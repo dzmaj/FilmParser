@@ -5,8 +5,8 @@ public class Player {
     private String teamName;
     private byte[] primaryColor;
     private byte[] secondaryColor;
-    private byte index;
-    private byte teamIndex;
+    private byte index; // not exactly the index actually
+    private byte teamIndex; // not the team index
     private byte icon;
 
     public byte getIndex() {

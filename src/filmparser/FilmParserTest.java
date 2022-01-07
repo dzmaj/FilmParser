@@ -70,7 +70,7 @@ public class FilmParserTest {
 
                 str += packet.getType() + " : ";
                 if (packet != null) {
-                    Player sender = film.getPlayerMap().get((int)packet.getSender());
+                    Player sender = film.getPlayers()[((packet.getSender()))];
                     if (sender != null) {
                         str += sender.getName();
                     } else {

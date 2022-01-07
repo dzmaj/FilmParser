@@ -12,5 +12,4 @@ The file was reverse engineered using the game client and and a hex editor, and 
 - Select option to log all packets or only chat messages
 - Enter path to directory containing all recordings to be processed
 ## Notes and Issues
-- Issue: sometimes sender is mapped incorrectly in team games
-- Issue: some packets are processed incorrectly (packet length byte leaves)
+- Issue: some packets are processed incorrectly

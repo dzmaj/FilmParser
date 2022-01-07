@@ -13,7 +13,6 @@ public class Film {
     private Player[] players;
     private List<GamePacket> packets;
     private Map<Integer, GamePacket> packetMap;
-    private Map<Integer, Player> playerMap;
 
     public Map<Integer, GamePacket> getPacketMap() {
         return packetMap;
@@ -21,14 +20,6 @@ public class Film {
 
     public void setPacketMap(Map<Integer, GamePacket> packetMap) {
         this.packetMap = packetMap;
-    }
-
-    public Map<Integer, Player> getPlayerMap() {
-        return playerMap;
-    }
-
-    public void setPlayerMap(Map<Integer, Player> playerMap) {
-        this.playerMap = playerMap;
     }
 
     public Film() {
