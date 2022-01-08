@@ -1,5 +1,8 @@
 package filmparser;
 
+import filmparser.packets.ChatPacket;
+import filmparser.packets.GamePacket;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

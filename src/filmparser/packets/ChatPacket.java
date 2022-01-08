@@ -1,6 +1,8 @@
-package filmparser;
+package filmparser.packets;
 
-public class ChatPacket extends GamePacket{
+import filmparser.packets.GamePacket;
+
+public class ChatPacket extends GamePacket {
     private boolean whispered;
     private String message;
 

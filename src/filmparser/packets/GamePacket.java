@@ -1,4 +1,4 @@
-package filmparser;
+package filmparser.packets;
 
 import java.nio.ByteBuffer;
 

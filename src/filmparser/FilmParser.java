@@ -1,6 +1,7 @@
 package filmparser;
 
-import java.io.IOException;
+import filmparser.packets.GamePacket;
+
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;

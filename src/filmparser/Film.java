@@ -1,5 +1,7 @@
 package filmparser;
 
+import filmparser.packets.GamePacket;
+
 import java.util.List;
 import java.util.Map;
 

@@ -1,5 +1,9 @@
 package filmparser;
 
+import filmparser.packets.ChatPacket;
+import filmparser.packets.GamePacket;
+import filmparser.packets.GeneralActionPacket;
+
 import java.util.Arrays;
 
 public class PacketFactory {
@@ -29,21 +33,22 @@ public class PacketFactory {
                     break;
                 case 0: // Something went wrong
                     throw new Exception("Bad packet type: " + type);
-                case 1: // State? packet
+                case 2: // general action
+                    packet = new GeneralActionPacket(packetBytes);
+                    break;
+                case 1: // state
                     //break;
-                case 2: // ?
+                case 3: // movement
                     //break;
-                case 3: // Movement packet
+                case 4: // attack unit
                     //break;
-                case 4: // ?
+                case 5: // acttack ground
                     //break;
-                case 5: // Attack ground
+                case 6: // pick up object
                     //break;
-                case 6: // ?
+                case 7: // rename units
                     //break;
-                case 7: // ?
-                    //break;
-                case 8: // ?
+                case 8: // rotate formation
                     //break;
                 case 9: // ?
                     //break;
@@ -57,7 +62,7 @@ public class PacketFactory {
                     //break;
                 case 16: // Player info packet
                     //break;
-                case 0x15: // Player drop packet?
+                case 21: // Player drop packet?
                     //break;
                     packet = new GamePacket(packetBytes);
                     break;
