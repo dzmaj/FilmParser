@@ -16,14 +16,14 @@ public class AttackTargetPacket extends GamePacket{
         super(bytes);
         byte[] data = super.getData();
         this.attackerIds = new int[FilmParser.parseToUInt(data, 2)];
-        this.commandSubType = data[FilmParser.parseToUInt(data, 0)];
+        this.commandSubType = FilmParser.parseToUInt(data, 0);
         for (int i = 0; i < this.attackerIds.length; i++) {
-            this.attackerIds[i] = FilmParser.parseToUInt(data, 6 + 2 * i);
+            this.attackerIds[i] = FilmParser.parseToUInt(data, 4 + 2 * i);
         }
-        int numTargetsAddr = 3 + 2 * attackerIds.length;
+        int numTargetsAddr = 4 + 2 * attackerIds.length;
         this.targetIds = new int[FilmParser.parseToUInt(data, numTargetsAddr)];
         for (int i = 0; i < this.targetIds.length; i++) {
-            this.targetIds[i] = FilmParser.parseToUInt(data, numTargetsAddr + 2 * i);
+            this.targetIds[i] = FilmParser.parseToUInt(data, numTargetsAddr + 2 + 2 * i);
         }
     }
 

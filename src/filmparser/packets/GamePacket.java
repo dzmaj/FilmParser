@@ -18,15 +18,12 @@ public class GamePacket {
     }
 
     public GamePacket(byte[] bytes) {
-        if (bytes[0] == 0) {
-            throw new IllegalArgumentException("size 0 buffer");
-        }
-        this.length = bytes[0];
-        this.type = bytes[1];
-        this.sender = bytes[2];
-        this.tic = ByteBuffer.wrap(bytes).getInt(3);
+        this.length = FilmParser.parseToUInt(bytes);
+        this.type = bytes[2];
+        this.sender = bytes[3];
+        this.tic = ByteBuffer.wrap(bytes).getInt(4);
         this.time = Duration.ofMillis(tic * 1000 / 30);
-        this.data = bytes;
+        this.data = Arrays.copyOfRange(bytes, 8, length);
     }
 
     public byte[] getData() {
@@ -70,7 +67,7 @@ public class GamePacket {
     }
 
     public String getDataString() {
-        return FilmParser.getByteString(data, 7, length);
+        return FilmParser.getByteString(data);
     }
     public String getTypeString() {
         return switch (type) {
@@ -82,6 +79,7 @@ public class GamePacket {
             case 6 -> "PICK UP OBJECT";
             case 7 -> "RENAME";
             case 8 -> "ROTATE FORMATION";
+            case 10 -> "CHAT";
             case 12 -> "UNIT TRADE";
             case 16 -> "INITIALIZE PLAYER";
             case 21 -> "PLAYER DROP";

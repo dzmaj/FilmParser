@@ -1,5 +1,6 @@
 package filmparser;
 
+import filmparser.packets.AttackTargetPacket;
 import filmparser.packets.ChatPacket;
 import filmparser.packets.GamePacket;
 import filmparser.packets.GeneralActionPacket;
@@ -8,41 +9,33 @@ import java.util.Arrays;
 
 public class PacketFactory {
     public static GamePacket createPacket(byte[] bytes, int start) throws Exception {
-        if (start == 88679) {
-            System.err.println("---------");
-        }
         GamePacket packet = null;
-        int len = bytes[start];
-        if (len < 0) {
-//            System.err.println("Error reading packet at " + start + " length is " + len);
-            len = (bytes[start] & 0xff);
-//            System.err.println("new len " + len);
-//            System.err.println(FilmParser.getByteString(bytes, start, start + len));
-//            System.exit(1);
-        } else if (len == 0) {
-            throw new Exception("Error reading packet at " + start + " length is 0");
+        int len = FilmParser.parseToUInt(bytes, start);
+        if (len <= 0) {
+            throw new Exception("Error reading packet at " + start + " length is " + len);
         }
         int end = start + len;
 //        int end = start + bytes[start];
         byte[] packetBytes = Arrays.copyOfRange(bytes, start, end);
-        byte type = packetBytes[1];
+        byte type = packetBytes[2];
         try {
             switch (type) {
                 case 10: // Chat packet
                     packet = new ChatPacket(packetBytes);
                     break;
-                case 0: // Something went wrong
-                    throw new Exception("Bad packet type: " + type);
+//                case 0: // Something went wrong
+//                    throw new Exception("Bad packet type: " + type);
                 case 2: // general action
                     packet = new GeneralActionPacket(packetBytes);
+                    break;
+                case 4: // attack unit
+                    packet = new AttackTargetPacket(packetBytes);
                     break;
                 case 1: // state
                     //break;
                 case 3: // movement
                     //break;
-                case 4: // attack unit
-                    //break;
-                case 5: // acttack ground
+                case 5: // attack ground
                     //break;
                 case 6: // pick up object
                     //break;
@@ -69,7 +62,9 @@ public class PacketFactory {
 
                 default: // Unidentified packets or something went wrong
 //                    System.err.println("Throwing out packet type: " + type);
-                    throw new Exception("Unrecognized packet type: " + type);
+                    System.out.println("Unrecognized packet type: " + type + " at " + start);
+//                    System.exit(2);
+//                    throw new Exception("Unrecognized packet type: " + type + " at " + start);
                     // keep skipping
                     // Create basic GamePacket
 
@@ -79,10 +74,12 @@ public class PacketFactory {
             throw new Exception("Exception in PacketFactory.createPacket: start=" + start + ", length=" + bytes[start] + e.getMessage());
         }
         catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             throw new Exception("Exception in PacketFactory.createPacket: start=" + start + ", length=" + bytes[start]);
         }
-        packet.setLength(len);
+        if (packet != null) {
+            packet.setLength(len);
+        }
 
         return packet;
     }

@@ -115,21 +115,31 @@ public class FilmParser {
     }
 
     private void parsePackets() {
-        int start = UNITS_START_ADDR + ByteBuffer.wrap(file).getChar(UNITS_LENGTH_ADDR) + 2;
+        int start = UNITS_START_ADDR + ByteBuffer.wrap(file).getChar(UNITS_LENGTH_ADDR) + 1;
+        System.out.println("Starting packets at " + start);
+        System.out.println(file[start]);
+        System.out.println(file[start + 1]);
         List<GamePacket> packets = new ArrayList<>();
         Map<Integer, GamePacket> packetMap = new TreeMap<>();
+        int prevTic = 0;
         while (start < file.length) {
             GamePacket packet = null;
             try {
                 packet = PacketFactory.createPacket(file, start);
+//                System.out.println("@" + start + " => " + packet);
                 packetMap.put(start, packet);
-                if (packet != null) {
+                // Check for null packet,
+                // and extra check in case something went wrong with parsing but still managed to create a valid packet
+                // Should always have a OOS Check at least every 170 or so tics
+                if (packet != null && packet.getTic() >= prevTic && packet.getTic() <= prevTic + 200) {
+                    prevTic = packet.getTic();
                     packets.add(packet);
                     start += packet.getLength();
                 } else {
                     start++;
                 }
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 start++; // Not sure the best way to recover from these errors
             }
         }
@@ -146,9 +156,7 @@ public class FilmParser {
         return b | a << 8;
     }
     public static int parseToUInt(byte[] bytes, int start) {
-        int a = Byte.toUnsignedInt(bytes[start]);
-        int b = Byte.toUnsignedInt(bytes[start + 1]);
-        return b | a << 8;
+        return ByteBuffer.wrap(bytes).getShort(start) & 0xFFFF;
     }
     public static int parseToUInt(byte[] bytes) {
         return parseToUInt(bytes, 0);
