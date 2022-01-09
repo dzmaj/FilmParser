@@ -13,7 +13,7 @@ public class FilmParser {
     byte[] file;
     private static final int PLUGINS_START_ADDR = 0x92;
     private static final int PLUGINS_NUMBER_ADDR = 0x8e;
-    private static final int GAME_BUILD_ADDR = 0x86;
+    public static final int GAME_BUILD_ADDR = 0x86;
     private static final int MESH_TAG_ADDR = 0x70;
     private static final int PLAYER_COUNT_ADDR = 0x290;
     private static final int UNITS_LENGTH_ADDR = 0x5a;
@@ -123,7 +123,7 @@ public class FilmParser {
         Map<Integer, GamePacket> packetMap = new TreeMap<>();
         int prevTic = 0;
         while (start < file.length) {
-            GamePacket packet = null;
+            GamePacket packet;
             try {
                 packet = PacketFactory.createPacket(file, start);
 //                System.out.println("@" + start + " => " + packet);

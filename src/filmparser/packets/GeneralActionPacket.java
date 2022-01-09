@@ -48,9 +48,9 @@ public class GeneralActionPacket extends GamePacket{
     public String getDataString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getCommandTypeString()).append(" : ");
-        sb.append("\n\t" + ids.length + " Units :");
+        sb.append("\n\t").append(ids.length).append(" Units :");
         for (int id: ids) {
-            sb.append("\n\t ID : ").append(id);
+            sb.append(" [").append(id).append("]");
         }
         return sb.toString();
     }

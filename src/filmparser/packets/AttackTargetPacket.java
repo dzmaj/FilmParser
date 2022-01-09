@@ -43,13 +43,13 @@ public class AttackTargetPacket extends GamePacket{
     public String getDataString() {
         StringBuilder sb = new StringBuilder();
         sb.append("COMMAND SUBTYPE=").append(getCommandSubType()).append(" : ");
-        sb.append("\n\t" + attackerIds.length + " ATTACKERS :");
+        sb.append("\n\t").append(attackerIds.length).append(" ATTACKERS :");
         for (int id: attackerIds) {
-            sb.append("\n\t ID : ").append(id);
+            sb.append(" [").append(id).append("]");
         }
-        sb.append("\n\t" + targetIds.length + " TARGETS :");
+        sb.append("\n\t").append(targetIds.length).append(" TARGETS :");
         for (int id: targetIds) {
-            sb.append("\n\t ID : ").append(id);
+            sb.append(" [").append(id).append("]");
         }
         return sb.toString();
     }

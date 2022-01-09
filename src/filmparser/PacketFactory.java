@@ -1,9 +1,6 @@
 package filmparser;
 
-import filmparser.packets.AttackTargetPacket;
-import filmparser.packets.ChatPacket;
-import filmparser.packets.GamePacket;
-import filmparser.packets.GeneralActionPacket;
+import filmparser.packets.*;
 
 import java.util.Arrays;
 
@@ -28,12 +25,13 @@ public class PacketFactory {
                 case 2: // general action
                     packet = new GeneralActionPacket(packetBytes);
                     break;
+                case 3: // movement
+                    packet = new MovementPacket(packetBytes, FilmParser.parseToUInt(bytes, FilmParser.GAME_BUILD_ADDR));
+                    break;
                 case 4: // attack unit
                     packet = new AttackTargetPacket(packetBytes);
                     break;
                 case 1: // state
-                    //break;
-                case 3: // movement
                     //break;
                 case 5: // attack ground
                     //break;
