@@ -69,25 +69,18 @@ public class FilmParserTest {
             pw.println("-----Chat Log-----");
             pw.println("Time : Type : Sender : Content");
             for (GamePacket packet : film.getPackets()) {
-                String str = packet.getTime() + "(" + (packet.getTime() / 30 / 60) + ":" + ((int) (((packet.getTime() / 30.0) % 60.0) * 100))/100.0 + ") : ";
-
-                str += packet.getType() + " : ";
+                StringBuilder sb = new StringBuilder(128);
+                sb.append(packet);
                 if (packet != null) {
                     Player sender = film.getPlayers()[((packet.getSender()))];
                     if (sender != null) {
-                        str += sender.getName();
-                    } else {
-                        str += "[null]";
+                        sb.insert(sb.indexOf("sender=[") + 8, sender.getName());
                     }
                     if (packet instanceof ChatPacket) {
-                        str += ((ChatPacket) packet).isWhispered() ? " (Whisper) : " : " (Yell) : ";
-                        str += ((ChatPacket) packet).getMessage();
-                        pw.println(str);
+                        pw.println(sb);
                     } else {
-                        str += " : Type " + packet.getType() + " : ";
-                        str += FilmParser.getByteString(packet.getData(), 7, packet.getLength());
                         if (logAllPackets) {
-                            pw.println(str);
+                            pw.println(sb);
                         }
                     }
 

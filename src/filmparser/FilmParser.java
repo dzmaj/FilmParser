@@ -57,10 +57,10 @@ public class FilmParser {
     }
     private void parseGameBuildNumber() {
         // Game build number appears to be off sometimes
-        film.setBuild(parseToInt(GAME_BUILD_ADDR));
+        film.setBuild(parseFileToInt(GAME_BUILD_ADDR));
     }
     private void parsePlugins() {
-        int numPlugins = parseToInt(PLUGINS_NUMBER_ADDR);
+        int numPlugins = parseFileToInt(PLUGINS_NUMBER_ADDR);
         Plugin[] plugins = new Plugin[numPlugins];
         int start = PLUGINS_START_ADDR;
         for (int i = 0; i < numPlugins; i++) {
@@ -86,7 +86,7 @@ public class FilmParser {
     }
 
     private void parsePlayers() {
-        int numPlayers = parseToInt(PLAYER_COUNT_ADDR);
+        int numPlayers = parseFileToInt(PLAYER_COUNT_ADDR);
         film.setNumPlayers(numPlayers);
         Player[] players = new Player[numPlayers];
 //        Map<Integer, Player> playerMap = new HashMap<>();
@@ -140,10 +140,18 @@ public class FilmParser {
         return ByteBuffer.wrap(file).getChar(start);
     }
 
-    private int parseToInt(int start) {
+    private int parseFileToInt(int start) {
         int a = Byte.toUnsignedInt(file[start]);
         int b = Byte.toUnsignedInt(file[start + 1]);
         return b | a << 8;
+    }
+    public static int parseToUInt(byte[] bytes, int start) {
+        int a = Byte.toUnsignedInt(bytes[start]);
+        int b = Byte.toUnsignedInt(bytes[start + 1]);
+        return b | a << 8;
+    }
+    public static int parseToUInt(byte[] bytes) {
+        return parseToUInt(bytes, 0);
     }
     private String parseToString(int start, int length) {
         // zero terminated with end index
@@ -171,7 +179,8 @@ public class FilmParser {
     public static String getByteString(byte[] bytes, int start, int end) {
         StringBuilder str = new StringBuilder();
         for (int i = start; i < end; i++) {
-            str.append(bytes[i]).append(" ");
+
+            str.append((int) bytes[i] & 0xff).append(" ");
         }
         return str.toString();
     }

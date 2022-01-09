@@ -7,17 +7,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GeneralActionPacket extends GamePacket{
-    private static final Map<Byte, String> COMMAND_TYPE_MAP = new HashMap<>();
+    private static final Map<Integer, String> COMMAND_TYPE_MAP = new HashMap<>();
     static {
-        COMMAND_TYPE_MAP.put((byte) 0, "STOP");
-        COMMAND_TYPE_MAP.put((byte) 1, "SCATTER");
-        COMMAND_TYPE_MAP.put((byte) 2, "RETREAT");
-        COMMAND_TYPE_MAP.put((byte) 3, "SPECIAL ABILITY");
-        COMMAND_TYPE_MAP.put((byte) 4, "GUARD");
-        COMMAND_TYPE_MAP.put((byte) 5, "TAUNT");
+        COMMAND_TYPE_MAP.put(0, "STOP");
+        COMMAND_TYPE_MAP.put(1, "SCATTER");
+        COMMAND_TYPE_MAP.put(2, "RETREAT");
+        COMMAND_TYPE_MAP.put(3, "SPECIAL ABILITY");
+        COMMAND_TYPE_MAP.put(4, "GUARD");
+        COMMAND_TYPE_MAP.put(5, "TAUNT");
     }
 
-    private byte commandType;
+    private int commandSubType;
 
     private int[] ids;
 
@@ -25,21 +25,19 @@ public class GeneralActionPacket extends GamePacket{
         super(bytes);
         byte[] data = super.getData();
         this.ids = new int[data[5]];
-        this.commandType = data[3];
-        // unit IDs start at data[6] for general actions
-        for (int i = 6; i < this.ids.length; i++) {
-            int a = Byte.toUnsignedInt(data[i]);
-            int b = Byte.toUnsignedInt(data[i + 1]);
-            this.ids[i] = b | a << 8;
+        this.commandSubType = data[3];
+        // unit IDs start at data[6] for general actions, 2 bytes long
+        for (int i = 0; i < this.ids.length; i++) {
+            this.ids[i] = FilmParser.parseToUInt(data, 6 + 2 * i);
         }
     }
 
     public String getCommandTypeString() {
-        return COMMAND_TYPE_MAP.get(this.commandType);
+        return COMMAND_TYPE_MAP.get(this.commandSubType);
     }
 
-    public byte getCommandType() {
-        return commandType;
+    public int getCommandSubType() {
+        return commandSubType;
     }
 
     public int[] getIds() {
