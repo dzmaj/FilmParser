@@ -89,8 +89,9 @@ public class MovementPacket extends GamePacket{
                 sb.append(" ").append(coordinate);
             }
         }
-        sb.append("\n\tSTART POINT : ").append(startPoint);
-
+        if (startPoint !=  null) {
+            sb.append("\n\tSTART POINT : ").append(startPoint);
+        }
         return sb.toString();
     }
 }
