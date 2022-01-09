@@ -11,12 +11,31 @@ import java.util.Scanner;
 
 public class FilmParserTest {
     private static boolean logAllPackets;
+    private static boolean logChat;
+    private static boolean logMovement;
+    private static boolean logGeneralAction;
+    private static boolean logAttackTarget;
+    private static boolean logState;
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Recording Parser: ");
-        System.out.println("Log only chat packets (1) or all packets (2)?");
+        System.out.println("Log all packets? (1)");
         String option = sc.nextLine();
-        logAllPackets = option.equals("2");
+        logAllPackets = option.equals("1");
+        if (!logAllPackets) {
+            System.out.println("Log chat packets? (1)");
+            option = sc.nextLine();
+            logChat = option.equals("1");
+            System.out.println("Log OOS check packets? (1)");
+            option = sc.nextLine();
+            logState = option.equals("1");
+//            System.out.println("Log movement packets? (1)");
+//            option = sc.nextLine();
+//            logChat = option.equals("1");
+//            System.out.println("Log general action packets? (1)");
+//            option = sc.nextLine();
+//            logChat = option.equals("1");
+        }
         System.out.println("Enter the directory to parse: ");
         String path = sc.nextLine();
         File folder = new File(path);
