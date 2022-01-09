@@ -1,6 +1,9 @@
 package filmparser.packets;
 
+import filmparser.FilmParser;
 import filmparser.packets.GamePacket;
+
+import java.nio.ByteBuffer;
 
 public class ChatPacket extends GamePacket {
     private boolean whispered;
@@ -11,9 +14,9 @@ public class ChatPacket extends GamePacket {
 
     public ChatPacket(byte[] bytes) {
         super(bytes);
-        this.whispered = bytes[8] != 0;
+        this.whispered = FilmParser.parseToUInt(bytes, 8) != 0;
         StringBuilder str = new StringBuilder();
-        for (int i = 9; i < bytes.length - 2; i++) {
+        for (int i = 10; i < bytes.length - 1; i++) {
             str.append((char) bytes[i]);
         }
         this.message = str.toString();
@@ -33,5 +36,11 @@ public class ChatPacket extends GamePacket {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String getDataString() {
+        String str = whispered ? "WHISPER : " : "YELL : ";
+        return str + message;
     }
 }
