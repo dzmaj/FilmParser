@@ -43,4 +43,15 @@ public class GeneralActionPacket extends GamePacket{
     public int[] getIds() {
         return Arrays.copyOf(ids, ids.length);
     }
+
+    @Override
+    public String getDataString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getCommandTypeString()).append(" : ");
+        sb.append(ids.length + " Units :");
+        for (int id: ids) {
+            sb.append("\n\t ID : ").append(id);
+        }
+        return sb.toString();
+    }
 }
