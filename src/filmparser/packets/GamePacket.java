@@ -80,8 +80,10 @@ public class GamePacket {
             case 7 -> "RENAME";
             case 8 -> "ROTATE FORMATION";
             case 10 -> "CHAT";
+            case 11 -> "DETACH UNIT?";
             case 12 -> "UNIT TRADE";
             case 16 -> "INITIALIZE PLAYER";
+            case 17 -> "INVENTORY";
             case 21 -> "PLAYER DROP";
             default -> "UNKNOWN (" + type + ")";
         };
@@ -95,7 +97,7 @@ public class GamePacket {
                 time.toMinutes(), time.toSecondsPart(), time.toMillisPart())).append(") : ");
 //        sb.append("length=").append(length);
         sb.append(getTypeString()).append(" : ");
-        sb.append("FROM=[ : ").append(sender);
+        sb.append("FROM = [ : ").append(sender);
         sb.append("] : ");
         sb.append(getDataString());
         return sb.toString();

@@ -140,9 +140,6 @@ public class FilmParser {
 
     private void parsePackets() {
         int start = UNITS_START_ADDR + ByteBuffer.wrap(file).getChar(UNITS_LENGTH_ADDR) + 1;
-        System.out.println("Starting packets at " + start);
-        System.out.println(file[start]);
-        System.out.println(file[start + 1]);
         List<GamePacket> packets = new ArrayList<>();
         Map<Integer, GamePacket> packetMap = new TreeMap<>();
         int prevTic = 0;
@@ -155,7 +152,7 @@ public class FilmParser {
                 // Check for null packet,
                 // and extra check in case something went wrong with parsing but still managed to create a valid packet
                 // Should always have a OOS Check at least every 170 or so tics
-                if (packet != null && packet.getTic() >= prevTic && packet.getTic() <= prevTic + 200) {
+                if (packet.getTic() >= prevTic && packet.getTic() <= prevTic + 200) {
                     prevTic = packet.getTic();
                     packets.add(packet);
                     start += packet.getLength();
@@ -163,8 +160,8 @@ public class FilmParser {
                     start++;
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                start++; // Not sure the best way to recover from these errors
+//                System.out.println(e.getMessage());
+                start += 8; // Not sure the best way to recover from these errors, but this seems to work ok usually
             }
         }
         film.setPackets(packets);
@@ -211,7 +208,6 @@ public class FilmParser {
     public static String getByteString(byte[] bytes, int start, int end) {
         StringBuilder str = new StringBuilder();
         for (int i = start; i < end; i++) {
-
             str.append((int) bytes[i] & 0xff).append(" ");
         }
         return str.toString();

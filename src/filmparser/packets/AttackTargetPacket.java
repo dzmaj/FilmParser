@@ -42,12 +42,12 @@ public class AttackTargetPacket extends GamePacket{
     @Override
     public String getDataString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("COMMAND SUBTYPE=").append(getCommandSubType()).append(" : ");
-        sb.append("\n\t").append(attackerIds.length).append(" ATTACKERS :");
+        sb.append("COMMAND SUBTYPE = ").append(getCommandSubType()).append(" : ");
+        sb.append("\n\t").append(attackerIds.length).append(" ATTACKERS =");
         for (int id: attackerIds) {
             sb.append(" [").append(id).append("]");
         }
-        sb.append("\n\t").append(targetIds.length).append(" TARGETS :");
+        sb.append("\n\t").append(targetIds.length).append(" TARGETS =");
         for (int id: targetIds) {
             sb.append(" [").append(id).append("]");
         }

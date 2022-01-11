@@ -76,23 +76,23 @@ public class MovementPacket extends GamePacket{
     @Override
     public String getDataString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("COMMAND SUBTYPE=").append(getCommandSubType()).append(" : ");
-        sb.append("FORMATION : ").append(FORMATION_TYPE_MAP.get(formation));
+        sb.append("COMMAND SUBTYPE = ").append(getCommandSubType()).append(" : ");
+        sb.append("FORMATION = ").append(FORMATION_TYPE_MAP.get(formation));
 //        if (rotation != 0) {
-            sb.append("\n\tFACING : ").append(String.format("%.1f", rotationStandard));
+            sb.append("\n\tFACING = ").append(String.format("%.1f", rotationStandard));
 //        }
-        sb.append("\n\t").append(ids.length).append(" UNITS :");
+        sb.append("\n\t").append(ids.length).append(" UNITS =");
         for (int id: ids) {
             sb.append(" [").append(id).append("]");
         }
-        sb.append("\n\t").append(numberOfWaypoints).append(" WAYPOINTS :");
+        sb.append("\n\t").append(numberOfWaypoints).append(" WAYPOINTS =");
         if (destinations != null) {
             for (Coordinate coordinate : destinations) {
                 sb.append(" ").append(coordinate);
             }
         }
         if (startPoint !=  null) {
-            sb.append("\n\tSTART POINT : ").append(startPoint);
+            sb.append("\n\tSTART POINT = ").append(startPoint);
         }
         return sb.toString();
     }

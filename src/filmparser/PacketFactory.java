@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class PacketFactory {
     public static GamePacket createPacket(byte[] bytes, int start) throws Exception {
-        GamePacket packet = null;
+        GamePacket packet;
         int len = FilmParser.parseToUInt(bytes, start);
         if (len <= 0) {
             throw new Exception("Error reading packet at " + start + " length is " + len);
@@ -17,11 +17,9 @@ public class PacketFactory {
         byte type = packetBytes[2];
         try {
             switch (type) {
-                case 10: // Chat packet
-                    packet = new ChatPacket(packetBytes);
+                case 1: // state
+                    packet = new StatePacket(packetBytes);
                     break;
-//                case 0: // Something went wrong
-//                    throw new Exception("Bad packet type: " + type);
                 case 2: // general action
                     packet = new GeneralActionPacket(packetBytes);
                     break;
@@ -31,39 +29,42 @@ public class PacketFactory {
                 case 4: // attack unit
                     packet = new AttackTargetPacket(packetBytes);
                     break;
-                case 1: // state
-                    //break;
                 case 5: // attack ground
-                    //break;
+                    packet = new AttackGroundPacket(packetBytes);
+                    break;
                 case 6: // pick up object
-                    //break;
+                    packet = new PickUpObjectPacket(packetBytes);
+                    break;
                 case 7: // rename units
-                    //break;
+                    packet = new RenamePacket(packetBytes);
+                    break;
                 case 8: // rotate formation
-                    //break;
+                    packet = new RotateFormationPacket(packetBytes);
+                    break;
+                case 10: // Chat packet
+                    packet = new ChatPacket(packetBytes);
+                    break;
+                case 12: // Unit Trade
+                    packet = new UnitTradePacket(packetBytes);
+                    break;
+                case 16: // Player info packet
+                    packet = new InitializePlayerPacket(packetBytes);
+                    break;
                 case 9: // ?
                     //break;
-                case 11: //?
+                case 11: // Detach units?
                     //break;
-                case 12: // Unit Trade
-                    //break;
-                case 13: // ?
+                case 13: //?
                     //break;
                 case 15: // ?
                     //break;
-                case 16: // Player info packet
+                case 17: // Inventory switch
                     //break;
                 case 21: // Player drop packet?
                     //break;
+                default: // Unidentified packets
+//                    System.out.println("Unrecognized packet type: " + type + " at " + start);
                     packet = new GamePacket(packetBytes);
-                    break;
-
-                default: // Unidentified packets or something went wrong
-//                    System.err.println("Throwing out packet type: " + type);
-                    System.out.println("Unrecognized packet type: " + type + " at " + start);
-//                    System.exit(2);
-//                    throw new Exception("Unrecognized packet type: " + type + " at " + start);
-                    // keep skipping
                     // Create basic GamePacket
 
             }
@@ -75,9 +76,7 @@ public class PacketFactory {
             e.printStackTrace();
             throw new Exception("Exception in PacketFactory.createPacket: start=" + start + ", length=" + bytes[start]);
         }
-        if (packet != null) {
-            packet.setLength(len);
-        }
+        packet.setLength(len);
 
         return packet;
     }
