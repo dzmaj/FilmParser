@@ -1,6 +1,7 @@
 package filmparser;
 
 import filmparser.packets.ChatPacket;
+import filmparser.packets.DetachUnitsPacket;
 import filmparser.packets.GamePacket;
 import filmparser.packets.StatePacket;
 
@@ -125,8 +126,13 @@ public class FilmParserTest {
                     sb.append(packet);
                     Player sender = film.getPlayers()[((packet.getSender()))];
                     if (sender != null) {
-                        String s = "FROM=[";
+                        String s = "FROM = [";
                         sb.insert(sb.indexOf(s) + s.length(), sender.getName());
+                    }
+                    if (packet instanceof DetachUnitsPacket) {
+                        String s = "TO = [";
+                        Player from = film.getPlayers()[((DetachUnitsPacket) packet).getDetachToPlayerIndex()];
+                        sb.insert(sb.indexOf(s) + s.length(), from.getName());
                     }
                     pw.println(sb);
                 }

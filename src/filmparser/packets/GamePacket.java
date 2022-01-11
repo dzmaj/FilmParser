@@ -80,7 +80,7 @@ public class GamePacket {
             case 7 -> "RENAME";
             case 8 -> "ROTATE FORMATION";
             case 10 -> "CHAT";
-            case 11 -> "DETACH UNIT?";
+            case 11 -> "DETACH UNITS";
             case 12 -> "UNIT TRADE";
             case 16 -> "INITIALIZE PLAYER";
             case 17 -> "INVENTORY";

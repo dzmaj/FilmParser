@@ -16,58 +16,23 @@ public class PacketFactory {
         byte[] packetBytes = Arrays.copyOfRange(bytes, start, end);
         byte type = packetBytes[2];
         try {
-            switch (type) {
-                case 1: // state
-                    packet = new StatePacket(packetBytes);
-                    break;
-                case 2: // general action
-                    packet = new GeneralActionPacket(packetBytes);
-                    break;
-                case 3: // movement
-                    packet = new MovementPacket(packetBytes, FilmParser.parseToUInt(bytes, FilmParser.GAME_BUILD_ADDR));
-                    break;
-                case 4: // attack unit
-                    packet = new AttackTargetPacket(packetBytes);
-                    break;
-                case 5: // attack ground
-                    packet = new AttackGroundPacket(packetBytes);
-                    break;
-                case 6: // pick up object
-                    packet = new PickUpObjectPacket(packetBytes);
-                    break;
-                case 7: // rename units
-                    packet = new RenamePacket(packetBytes);
-                    break;
-                case 8: // rotate formation
-                    packet = new RotateFormationPacket(packetBytes);
-                    break;
-                case 10: // Chat packet
-                    packet = new ChatPacket(packetBytes);
-                    break;
-                case 12: // Unit Trade
-                    packet = new UnitTradePacket(packetBytes);
-                    break;
-                case 16: // Player info packet
-                    packet = new InitializePlayerPacket(packetBytes);
-                    break;
-                case 9: // ?
-                    //break;
-                case 11: // Detach units?
-                    //break;
-                case 13: //?
-                    //break;
-                case 15: // ?
-                    //break;
-                case 17: // Inventory switch
-                    //break;
-                case 21: // Player drop packet?
-                    //break;
-                default: // Unidentified packets
-//                    System.out.println("Unrecognized packet type: " + type + " at " + start);
-                    packet = new GamePacket(packetBytes);
-                    // Create basic GamePacket
-
-            }
+            packet = switch (type) {
+                case 1 -> new StatePacket(packetBytes);
+                case 2 -> new GeneralActionPacket(packetBytes);
+                // Need the game build because of packet format change in 1.8.4 for movement
+                case 3 -> new MovementPacket(packetBytes, FilmParser.parseToUInt(bytes, FilmParser.GAME_BUILD_ADDR));
+                case 4 -> new AttackTargetPacket(packetBytes);
+                case 5 -> new AttackGroundPacket(packetBytes);
+                case 6 -> new PickUpObjectPacket(packetBytes);
+                case 7 -> new RenamePacket(packetBytes);
+                case 8 -> new RotateFormationPacket(packetBytes);
+                case 10 -> new ChatPacket(packetBytes);
+                case 11 -> new DetachUnitsPacket(packetBytes);
+                case 12 -> new UnitTradePacket(packetBytes);
+                case 16 -> new InitializePlayerPacket(packetBytes);
+                default -> new GamePacket(packetBytes);
+                // Create basic GamePacket
+            };
         }
         catch (IllegalArgumentException e) {
             throw new Exception("Exception in PacketFactory.createPacket: start=" + start + ", length=" + bytes[start] + e.getMessage());
