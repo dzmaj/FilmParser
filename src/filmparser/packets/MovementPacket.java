@@ -29,7 +29,8 @@ public class MovementPacket extends GamePacket{
     private int numberOfWaypoints;
     private Coordinate[] destinations;
     private Coordinate startPoint;
-    private int rotation;
+    private long rotation;
+    private double rotationStandard;
 
     private int[] ids;
 
@@ -38,7 +39,8 @@ public class MovementPacket extends GamePacket{
         byte[] data = super.getData();
         this.commandSubType = FilmParser.parseToUInt(data, 0);
         this.formation = FilmParser.parseToUInt(data, 2);
-        this.rotation = ByteBuffer.wrap(data).getInt(4);
+        this.rotation = ByteBuffer.wrap(data).getInt(4) & 0xffffffffL;
+        this.rotationStandard = this.rotation / 11930464.71;
         this.ids = new int[FilmParser.parseToUInt(data, 8)];
         for (int i = 0; i < this.ids.length; i++) {
             this.ids[i] = FilmParser.parseToUInt(data, 10 + 2 * i);
@@ -76,9 +78,9 @@ public class MovementPacket extends GamePacket{
         StringBuilder sb = new StringBuilder();
         sb.append("COMMAND SUBTYPE=").append(getCommandSubType()).append(" : ");
         sb.append("FORMATION : ").append(FORMATION_TYPE_MAP.get(formation));
-        if (rotation != 0) {
-            sb.append("\n\tROTATION : ").append(rotation);
-        }
+//        if (rotation != 0) {
+            sb.append("\n\tFACING : ").append(String.format("%.1f", rotationStandard));
+//        }
         sb.append("\n\t").append(ids.length).append(" UNITS :");
         for (int id: ids) {
             sb.append(" [").append(id).append("]");

@@ -22,7 +22,7 @@ public class GamePacket {
         this.type = bytes[2];
         this.sender = bytes[3];
         this.tic = ByteBuffer.wrap(bytes).getInt(4);
-        this.time = Duration.ofMillis(tic * 1000 / 30);
+        this.time = Duration.ofMillis((long)tic * 1000 / 30);
         this.data = Arrays.copyOfRange(bytes, 8, length);
     }
 
@@ -95,7 +95,7 @@ public class GamePacket {
                 time.toMinutes(), time.toSecondsPart(), time.toMillisPart())).append(") : ");
 //        sb.append("length=").append(length);
         sb.append(getTypeString()).append(" : ");
-        sb.append("sender=[ :").append(sender);
+        sb.append("FROM=[ : ").append(sender);
         sb.append("] : ");
         sb.append(getDataString());
         return sb.toString();

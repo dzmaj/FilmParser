@@ -69,6 +69,13 @@ public class FilmParserTest {
             pw.println("Recording Name: " + film.getName());
             pw.println("Mesh Tag ID: " + film.getMeshTag());
             pw.println("Game Build: " + film.getBuild());
+            pw.println("Difficulty: " + film.getDifficultyString());
+            pw.println("Game Type: " + film.getGameTypeString());
+            pw.printf("Time Limit: %d:%d:%02d\n", film.getTimeLimitDuration().toHours(),
+                                                film.getTimeLimitDuration().toMinutesPart(),
+                                                film.getTimeLimitDuration().toSecondsPart());
+            pw.printf("Planning Time: %d:%02d\n", film.getPlanningTimeLimitDuration().toMinutes(),
+                                                film.getPlanningTimeLimitDuration().toSecondsPart());
             for (Plugin plugin: film.getPlugins()) {
                 pw.println("Plugin: " + plugin.getName());
                 pw.println("URL: " + plugin.getUrl());
@@ -85,7 +92,7 @@ public class FilmParserTest {
             for (Player player : film.getPlayers()) {
                 pw.println(player.getName());
             }
-            pw.println("-----Chat Log-----");
+            pw.println("-----Packet Log-----");
             pw.println("Time : Type : Sender : Content");
             for (GamePacket packet : film.getPackets()) {
                 StringBuilder sb = new StringBuilder(128);
@@ -93,7 +100,8 @@ public class FilmParserTest {
                 if (packet != null) {
                     Player sender = film.getPlayers()[((packet.getSender()))];
                     if (sender != null) {
-                        sb.insert(sb.indexOf("sender=[") + 8, sender.getName());
+                        String s = "FROM=[";
+                        sb.insert(sb.indexOf(s) + s.length(), sender.getName());
                     }
                     if (packet instanceof ChatPacket) {
                         pw.println(sb);

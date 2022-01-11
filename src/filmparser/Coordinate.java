@@ -6,9 +6,9 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Coordinate{");
-        sb.append("x=").append(x);
-        sb.append(", y=").append(y);
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("x=").append(String.format("%.3f", x/512.0));
+        sb.append(", y=").append(String.format("%.3f", y/512.0));
         sb.append('}');
         return sb.toString();
     }

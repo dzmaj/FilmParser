@@ -18,6 +18,10 @@ public class FilmParser {
     private static final int PLAYER_COUNT_ADDR = 0x290;
     private static final int UNITS_LENGTH_ADDR = 0x5a;
     private static final int UNITS_START_ADDR = 0x0a6f;
+    private static final int TIME_LIMIT_ADDR = 110;
+    private static final int GAME_TYPE_ADDR = 102;
+    private static final int PLANNING_TIME_LIMIT_ADDR = 130;
+    private static final int DIFFICULTY_ADDR = 117;
 
     public Film parseFilm(String filePath) {
         // Check if file path works
@@ -37,6 +41,14 @@ public class FilmParser {
             parseMeshTag();
             System.out.println("\tParse game build");
             parseGameBuildNumber();
+            System.out.println("\tParse time limit");
+            parseTimeLimit();
+            System.out.println("\tParse planning time limit");
+            parsePlanningTimeLimit();
+            System.out.println("\tParse difficulty");
+            parseDifficulty();
+            System.out.println("\tParse game type");
+            parseGameType();
             System.out.println("\tParse plugins");
             parsePlugins();
             System.out.println("\tParse players");
@@ -58,6 +70,18 @@ public class FilmParser {
     private void parseGameBuildNumber() {
         // Game build number appears to be off sometimes
         film.setBuild(parseFileToInt(GAME_BUILD_ADDR));
+    }
+    private void parseTimeLimit() {
+        film.setTimeLimit(parseFileToInt(TIME_LIMIT_ADDR));
+    }
+    private void parsePlanningTimeLimit() {
+        film.setPlanningTimeLimit(parseFileToInt(PLANNING_TIME_LIMIT_ADDR));
+    }
+    private void parseDifficulty() {
+        film.setDifficulty(file[DIFFICULTY_ADDR]);
+    }
+    private void parseGameType() {
+        film.setGameType(file[GAME_TYPE_ADDR]);
     }
     private void parsePlugins() {
         int numPlugins = parseFileToInt(PLUGINS_NUMBER_ADDR);
