@@ -10,6 +10,7 @@ The file was reverse engineered using the game client and and a hex editor, and 
 - Movement packets are decoded to display the formation, unit IDs, destination/waypoints, and facing
 - General Action packets display the unit IDs and command subtype (stop, scatter, retreat, special ability, guard, or taunt)
 - Attack target commands display unit IDs for attackers and targets
+- Detach unit packets display who units are detached to and the unit IDs
 - Plugin download links are retrieved from http://tain.totalcodex.net
 ## Usage
 - Requires java 17
