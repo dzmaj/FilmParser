@@ -19,7 +19,7 @@ public class FilmParser {
     private static final int UNITS_LENGTH_ADDR = 0x5a;
     private static final int UNITS_START_ADDR = 0x0a6f;
     private static final int TIME_LIMIT_ADDR = 110;
-    private static final int GAME_TYPE_ADDR = 102;
+    private static final int GAME_TYPE_ADDR = 103;
     private static final int PLANNING_TIME_LIMIT_ADDR = 130;
     private static final int DIFFICULTY_ADDR = 117;
 
