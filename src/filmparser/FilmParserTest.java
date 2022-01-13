@@ -81,13 +81,13 @@ public class FilmParserTest {
 
 
         FilmParser fp = new FilmParser();
-        System.out.println("Starting " + inputPath);
+        System.out.println("Starting:\t" + inputPath);
         Film film = fp.parseFilm(inputPath);
         if (film != null) {
             File file = new File(inputPath + ".txt");
             FileWriter fw = new FileWriter(file);
             PrintWriter pw = new PrintWriter(fw);
-            System.out.println("Writing " + file.getPath());
+            System.out.println("Writing :\t" + file.getPath());
             pw.println("Recording Name: " + film.getName());
             pw.println("Mesh Tag ID: " + film.getMeshTag());
             pw.println("Game Build: " + film.getBuild());
@@ -145,10 +145,10 @@ public class FilmParserTest {
                     pw.println(sb);
                 }
             }
-            System.out.println("\tDone writing\n");
+            System.out.println("Done writing:\t" + inputPath);
             pw.close();
         } else {
-            System.out.println("Error parsing " + inputPath);
+            System.out.println("Error:\t" + inputPath);
         }
 
     }

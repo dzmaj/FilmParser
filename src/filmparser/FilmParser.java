@@ -30,13 +30,13 @@ public class FilmParser {
         Path path = Paths.get(filePath);
         String s = path.getFileName().toString();
         try {
-            System.out.println("\t" + s + " :\tReading file");
+            System.out.println("Reading file:\t" + s);
             file =  Files.readAllBytes(path);
 //            System.out.println("\tChecking file type");
             if(!checkFileIsRecordingType()) {
-                throw new Exception("Not m2rec file");
+                throw new Exception("Not m2rec file:\t" + s);
             }
-            System.out.println("\t" + s + " :\tParsing game info");
+            System.out.println("Parsing game info:\t" + s);
 //            System.out.println("\tParse film name");
             parseFilmName();
 //            System.out.println("\tParse mesh tag");
@@ -51,11 +51,11 @@ public class FilmParser {
             parseDifficulty();
 //            System.out.println("\tParse game type");
             parseGameType();
-            System.out.println("\t" + s + " :\tParsing plugins");
+            System.out.println("Parsing plugins:\t" + s);
             parsePlugins();
-            System.out.println("\t" + s + " :\tParsing players");
+            System.out.println("Parsing players:\t" + s);
             parsePlayers();
-            System.out.println("\t" + s + " :\tParsing packets");
+            System.out.println("Parsing packets:\t" + s);
             parsePackets();
         } catch (Exception e) {
             System.out.println(e.getMessage());
