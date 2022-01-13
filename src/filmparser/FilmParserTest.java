@@ -104,7 +104,7 @@ public class FilmParserTest {
                 pw.println("Checksum: 0x" + plugin.getChecksumString());
                 String str = "";
                 try {
-                    str = TainPluginController.getUrl(plugin.getName(), plugin.getUrl(), plugin.getChecksumValue());
+                    str = TainPluginController.getUrl(plugin);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
