@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FilmParserTest {
@@ -56,15 +57,22 @@ public class FilmParserTest {
         File[] listOfFiles = folder.listFiles();
 
         if (listOfFiles != null) {
-            for (File listOfFile : listOfFiles) {
-                if (listOfFile.isFile()) {
-                    try {
-                        parseFile(listOfFile.getPath());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            Arrays.stream(listOfFiles).parallel().filter(File::isFile).forEach(file -> {
+                try {
+                    parseFile(file.getPath());
+                } catch (Exception e) {
+                   e.printStackTrace();
                 }
-            }
+            });
+//            for (File listOfFile : listOfFiles) {
+//                if (listOfFile.isFile()) {
+//                    try {
+//                        parseFile(listOfFile.getPath());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
         }
 
 
@@ -73,13 +81,13 @@ public class FilmParserTest {
 
 
         FilmParser fp = new FilmParser();
-        System.out.println("Parsing " + inputPath);
+        System.out.println("Starting:\t" + inputPath);
         Film film = fp.parseFilm(inputPath);
         if (film != null) {
             File file = new File(inputPath + ".txt");
             FileWriter fw = new FileWriter(file);
             PrintWriter pw = new PrintWriter(fw);
-            System.out.println("Writing " + file.getPath());
+            System.out.println("Writing :\t" + file.getPath());
             pw.println("Recording Name: " + film.getName());
             pw.println("Mesh Tag ID: " + film.getMeshTag());
             pw.println("Game Build: " + film.getBuild());
@@ -96,7 +104,7 @@ public class FilmParserTest {
                 pw.println("Checksum: 0x" + plugin.getChecksumString());
                 String str = "";
                 try {
-                    str = TainPluginController.getUrl(plugin.getName(), plugin.getUrl(), plugin.getChecksumValue());
+                    str = TainPluginController.getUrl(plugin);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -137,10 +145,10 @@ public class FilmParserTest {
                     pw.println(sb);
                 }
             }
-            System.out.println("\tDone writing\n");
+            System.out.println("Done writing:\t" + inputPath);
             pw.close();
         } else {
-            System.out.println("Error parsing " + inputPath);
+            System.out.println("Error:\t" + inputPath);
         }
 
     }

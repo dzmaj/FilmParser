@@ -1,6 +1,8 @@
 package filmparser;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Plugin {
     private String name;
@@ -48,17 +50,29 @@ public class Plugin {
 
     public String getChecksumString() {
         String str = "";
-        for (int i = 0; i < checksum.length; i++) {
-            str += String.format("%02x", checksum[i]);
+        for (byte b : checksum) {
+            str += String.format("%02x", b);
         }
         return str;
     }
 
     public long getChecksumValue() {
-        int val = 0;
-        val = ByteBuffer.wrap(checksum).getInt();
-        // should be 2578814965
-        long unsignedValue = val & 0xffffffffL;
-        return unsignedValue;
+        int val = ByteBuffer.wrap(checksum).getInt();
+        return val & 0xffffffffL;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plugin plugin = (Plugin) o;
+        return Objects.equals(name, plugin.name) && Objects.equals(url, plugin.url) && Arrays.equals(checksum, plugin.checksum);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name, url);
+        result = 31 * result + Arrays.hashCode(checksum);
+        return result;
     }
 }
