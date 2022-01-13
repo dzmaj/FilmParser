@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FilmParserTest {
@@ -56,15 +57,22 @@ public class FilmParserTest {
         File[] listOfFiles = folder.listFiles();
 
         if (listOfFiles != null) {
-            for (File listOfFile : listOfFiles) {
-                if (listOfFile.isFile()) {
-                    try {
-                        parseFile(listOfFile.getPath());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            Arrays.stream(listOfFiles).parallel().filter(File::isFile).forEach(file -> {
+                try {
+                    parseFile(file.getPath());
+                } catch (Exception e) {
+                   e.printStackTrace();
                 }
-            }
+            });
+//            for (File listOfFile : listOfFiles) {
+//                if (listOfFile.isFile()) {
+//                    try {
+//                        parseFile(listOfFile.getPath());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
         }
 
 
@@ -73,7 +81,7 @@ public class FilmParserTest {
 
 
         FilmParser fp = new FilmParser();
-        System.out.println("Parsing " + inputPath);
+        System.out.println("Starting " + inputPath);
         Film film = fp.parseFilm(inputPath);
         if (film != null) {
             File file = new File(inputPath + ".txt");

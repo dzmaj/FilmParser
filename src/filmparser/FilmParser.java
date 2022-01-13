@@ -28,32 +28,34 @@ public class FilmParser {
         // create film
         this.film = new Film();
         Path path = Paths.get(filePath);
+        String s = path.getFileName().toString();
         try {
-            System.out.println("\tReading file");
+            System.out.println("\t" + s + " :\tReading file");
             file =  Files.readAllBytes(path);
-            System.out.println("\tChecking file type");
+//            System.out.println("\tChecking file type");
             if(!checkFileIsRecordingType()) {
                 throw new Exception("Not m2rec file");
             }
-            System.out.println("\tParse film name");
+            System.out.println("\t" + s + " :\tParsing game info");
+//            System.out.println("\tParse film name");
             parseFilmName();
-            System.out.println("\tParse mesh tag");
+//            System.out.println("\tParse mesh tag");
             parseMeshTag();
-            System.out.println("\tParse game build");
+//            System.out.println("\tParse game build");
             parseGameBuildNumber();
-            System.out.println("\tParse time limit");
+//            System.out.println("\tParse time limit");
             parseTimeLimit();
-            System.out.println("\tParse planning time limit");
+//            System.out.println("\tParse planning time limit");
             parsePlanningTimeLimit();
-            System.out.println("\tParse difficulty");
+//            System.out.println("\tParse difficulty");
             parseDifficulty();
-            System.out.println("\tParse game type");
+//            System.out.println("\tParse game type");
             parseGameType();
-            System.out.println("\tParse plugins");
+            System.out.println("\t" + s + " :\tParsing plugins");
             parsePlugins();
-            System.out.println("\tParse players");
+            System.out.println("\t" + s + " :\tParsing players");
             parsePlayers();
-            System.out.println("\tParse packets");
+            System.out.println("\t" + s + " :\tParsing packets");
             parsePackets();
         } catch (Exception e) {
             System.out.println(e.getMessage());
