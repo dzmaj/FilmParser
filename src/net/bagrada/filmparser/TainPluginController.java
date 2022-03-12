@@ -1,4 +1,4 @@
-package filmparser;
+package net.bagrada.filmparser;
 
 import java.io.IOException;
 import java.io.InputStream;

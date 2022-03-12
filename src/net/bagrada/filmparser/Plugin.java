@@ -1,4 +1,4 @@
-package filmparser;
+package net.bagrada.filmparser;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;

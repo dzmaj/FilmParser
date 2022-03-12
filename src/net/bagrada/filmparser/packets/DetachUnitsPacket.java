@@ -1,6 +1,6 @@
-package filmparser.packets;
+package net.bagrada.filmparser.packets;
 
-import filmparser.FilmParser;
+import net.bagrada.filmparser.FilmParser;
 
 public class DetachUnitsPacket extends GamePacket{
     private int detachToPlayerIndex;

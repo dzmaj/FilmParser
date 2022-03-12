@@ -1,9 +1,9 @@
-package filmparser;
+package net.bagrada.filmparser;
 
-import filmparser.packets.ChatPacket;
-import filmparser.packets.DetachUnitsPacket;
-import filmparser.packets.GamePacket;
-import filmparser.packets.StatePacket;
+import net.bagrada.filmparser.packets.ChatPacket;
+import net.bagrada.filmparser.packets.DetachUnitsPacket;
+import net.bagrada.filmparser.packets.GamePacket;
+import net.bagrada.filmparser.packets.StatePacket;
 
 import java.io.File;
 import java.io.FileWriter;

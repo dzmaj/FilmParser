@@ -1,7 +1,6 @@
-package filmparser.packets;
+package net.bagrada.filmparser.packets;
 
-import filmparser.FilmParser;
-import filmparser.packets.GamePacket;
+import net.bagrada.filmparser.FilmParser;
 
 import java.nio.ByteBuffer;
 

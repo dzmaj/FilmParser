@@ -1,7 +1,7 @@
-package filmparser.packets;
+package net.bagrada.filmparser.packets;
 
-import filmparser.Coordinate;
-import filmparser.FilmParser;
+import net.bagrada.filmparser.Coordinate;
+import net.bagrada.filmparser.FilmParser;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;

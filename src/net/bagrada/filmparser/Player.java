@@ -1,4 +1,4 @@
-package filmparser;
+package net.bagrada.filmparser;
 
 public class Player {
     private String name;

@@ -1,6 +1,6 @@
-package filmparser.packets;
+package net.bagrada.filmparser.packets;
 
-import filmparser.FilmParser;
+import net.bagrada.filmparser.FilmParser;
 
 import java.util.Arrays;
 import java.util.HashMap;
